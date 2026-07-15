@@ -1,0 +1,51 @@
+apiVersion: v1
+kind: Node
+metadata:
+  name: node-a
+  labels:
+    kubernetes.io/hostname: node-a
+    topology.kubernetes.io/zone: us-east-1a
+    disktype: ssd
+spec:
+  taints: []
+status:
+  allocatable:
+    cpu: "8"
+    memory: "32Gi"
+    ephemeral-storage: "100Gi"
+---
+apiVersion: v1
+kind: Node
+metadata:
+  name: node-b
+  labels:
+    kubernetes.io/hostname: node-b
+    topology.kubernetes.io/zone: us-east-1b
+    disktype: ssd
+spec:
+  taints: []
+status:
+  allocatable:
+    cpu: "8"
+    memory: "32Gi"
+    ephemeral-storage: "100Gi"
+---
+apiVersion: v1
+kind: Node
+metadata:
+  name: node-gpu-1
+  labels:
+    kubernetes.io/hostname: node-gpu-1
+    topology.kubernetes.io/zone: us-east-1a
+    accelerator: nvidia-a100
+spec:
+  taints:
+    - key: dedicated
+      value: gpu
+      effect: NoSchedule
+status:
+  allocatable:
+    cpu: "32"
+    memory: "128Gi"
+    nvidia.com/gpu: "8"
+    ephemeral-storage: "500Gi"

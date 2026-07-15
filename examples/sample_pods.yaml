@@ -1,0 +1,102 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: web-1
+  labels:
+    app: web
+    tier: frontend
+spec:
+  containers:
+    - name: web
+      resources:
+        requests:
+          cpu: "500m"
+          memory: "512Mi"
+      ports:
+        - containerPort: 8080
+  nodeSelector:
+    disktype: ssd
+  affinity:
+    podAntiAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        - labelSelector:
+            matchLabels:
+              app: web
+          topologyKey: kubernetes.io/hostname
+  topologySpreadConstraints:
+    - maxSkew: 1
+      topologyKey: topology.kubernetes.io/zone
+      whenUnsatisfiable: DoNotSchedule
+      labelSelector:
+        matchLabels:
+          app: web
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: web-2
+  labels:
+    app: web
+    tier: frontend
+spec:
+  containers:
+    - name: web
+      resources:
+        requests:
+          cpu: "500m"
+          memory: "512Mi"
+  nodeSelector:
+    disktype: ssd
+  affinity:
+    podAntiAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        - labelSelector:
+            matchLabels:
+              app: web
+          topologyKey: kubernetes.io/hostname
+  topologySpreadConstraints:
+    - maxSkew: 1
+      topologyKey: topology.kubernetes.io/zone
+      whenUnsatisfiable: DoNotSchedule
+      labelSelector:
+        matchLabels:
+          app: web
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: gpu-trainer-1
+  labels:
+    app: ml-train
+spec:
+  containers:
+    - name: trainer
+      resources:
+        requests:
+          cpu: "4"
+          memory: "16Gi"
+          nvidia.com/gpu: "1"
+  tolerations:
+    - key: dedicated
+      operator: Equal
+      value: gpu
+      effect: NoSchedule
+  nodeSelector:
+    accelerator: nvidia-a100
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: cache-1
+  labels:
+    app: cache
+spec:
+  containers:
+    - name: redis
+      resources:
+        requests:
+          cpu: "250m"
+          memory: "1Gi"
+      ports:
+        - containerPort: 6379
+          hostPort: 6379

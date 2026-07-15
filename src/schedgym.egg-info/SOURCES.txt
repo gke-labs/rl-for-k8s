@@ -1,0 +1,6 @@
+pyproject.toml
+src/schedgym.egg-info/PKG-INFO
+src/schedgym.egg-info/SOURCES.txt
+src/schedgym.egg-info/dependency_links.txt
+src/schedgym.egg-info/requires.txt
+src/schedgym.egg-info/top_level.txt
