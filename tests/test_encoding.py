@@ -53,3 +53,15 @@ def test_action_mask_allows_resource_fit():
     enc = encode_cluster(cluster, MAX_PODS, MAX_NODES)
     assert enc.action_mask[0, 0]
     assert isinstance(enc.action_mask[0, 0], (bool, np.bool_))
+
+
+def test_numeric_features_are_normalized_to_largest_node():
+    clusters = generate_dataset(30, seed=4)
+    batch = encode_batch(clusters, MAX_PODS, MAX_NODES)
+    # resource columns (cpu, mem, gpu, ephemeral) are fractions of the biggest node
+    assert np.abs(batch.pod_numeric[..., :4]).max() <= 1.0 + 1e-6
+    assert np.abs(batch.node_numeric[..., :4]).max() <= 1.0 + 1e-6
+    # each cluster's largest node is exactly 1.0 on cpu
+    assert np.allclose(batch.node_numeric[:, :, 0].max(axis=1), 1.0)
+    # constraint arrays stay in raw units
+    assert batch.node_resources[..., 0].max() > 1.0

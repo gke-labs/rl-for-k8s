@@ -1,0 +1,12 @@
+{
+  "iteration": "si_3",
+  "eval": {
+    "name": "si@3",
+    "num_clusters": 300,
+    "fully_scheduled_rate": 1.0,
+    "feasible_rate": 0.17,
+    "success_rate": 0.17,
+    "mean_active_nodes": 6.921568627450981,
+    "mean_packing_density": 0.8894540325281687
+  }
+}

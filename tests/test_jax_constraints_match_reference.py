@@ -78,3 +78,118 @@ def test_feasible_assignment_has_zero_violations():
     summary = evaluate_assignment(assignment, encoded)
     assert summary.total_violation_count.dtype in (jnp.int32, jnp.int64, jnp.float32, jnp.float64) or True
     assert num_pods > 0 and num_nodes > 0
+
+
+def test_overflow_frac_is_relative_to_node_capacity_and_reward_orders_feasible_first():
+    import jax.numpy as jnp
+    from schedgym.encoding import encode_cluster
+    from schedgym.env import compute_reward
+    from schedgym.jax_constraints import evaluate_assignment
+    from schedgym.types import ClusterBatch, NodeSpec, PodSpec
+
+    gib = 1024**3
+    nodes = tuple(NodeSpec(name=f"n{i}", cpu_allocatable=4.0, memory_allocatable=16 * gib) for i in range(3))
+    pods = tuple(PodSpec(name=f"p{i}", cpu_request=2.5, memory_request=1 * gib) for i in range(3))
+    enc = encode_cluster(ClusterBatch(pods=pods, nodes=nodes), 20, 12)
+
+    spread = jnp.array([0, 1, 2] + [0] * 17)  # feasible, all 3 nodes active
+    packed = jnp.array([0, 0, 1] + [0] * 17)  # node 0 has 5.0 cpu on 4.0 -> 25% over
+    s = evaluate_assignment(packed, enc)
+    assert abs(float(s.resource_overflow_frac) - 0.25) < 1e-5
+    assert abs(float(s.resource_overflow) - 1.0) < 1e-5
+    # even a slightly-illegal packed assignment must score below the worst legal one
+    assert float(compute_reward(packed, enc).reward) < float(compute_reward(spread, enc).reward)
+
+
+def test_pod_violation_mask_flags_some_pod_iff_infeasible():
+    import random
+
+    import jax.numpy as jnp
+    import numpy as np
+
+    from schedgym.constraints import validate_assignment
+    from schedgym.encoding import encode_cluster
+    from schedgym.generator import generate_dataset_with_info
+    from schedgym.jax_constraints import pod_violation_mask
+
+    rng = random.Random(0)
+    checked_feasible = checked_infeasible = 0
+    for g in generate_dataset_with_info(40, seed=21):
+        c = g.cluster
+        enc = encode_cluster(c, 20, 12)
+        candidates = [[rng.randrange(len(c.nodes)) for _ in c.pods] for _ in range(5)]
+        if all(a >= 0 for a in g.witness):
+            candidates.append(list(g.witness))
+        for a in candidates:
+            padded = jnp.array(a + [0] * (20 - len(a)))
+            bad = np.asarray(pod_violation_mask(padded, enc))
+            assert not bad[len(a):].any()  # padding never flagged
+            feasible = validate_assignment(c, a).is_feasible
+            assert bad.any() == (not feasible)
+            checked_feasible += feasible
+            checked_infeasible += not feasible
+    assert checked_feasible > 0 and checked_infeasible > 0
+
+
+def test_pod_violation_mask_attributes_anti_affinity_to_both_pods_only():
+    import jax.numpy as jnp
+
+    from schedgym.encoding import encode_cluster
+    from schedgym.jax_constraints import pod_violation_mask
+    from schedgym.types import (
+        ClusterBatch, LabelSelector, NodeSpec, PodAffinity, PodAffinityTerm, PodSpec,
+    )
+
+    gib = 1024**3
+    nodes = tuple(
+        NodeSpec(name=f"n{i}", cpu_allocatable=8.0, memory_allocatable=32 * gib,
+                 labels={"kubernetes.io/hostname": f"n{i}"})
+        for i in range(2)
+    )
+    anti = PodAffinity(required=(PodAffinityTerm(LabelSelector({"app": "web"}), "kubernetes.io/hostname"),))
+    pods = (
+        PodSpec(name="w1", cpu_request=1, memory_request=gib, labels={"app": "web"}, pod_anti_affinity=anti),
+        PodSpec(name="w2", cpu_request=1, memory_request=gib, labels={"app": "web"}, pod_anti_affinity=anti),
+        PodSpec(name="db", cpu_request=1, memory_request=gib, labels={"app": "db"}),
+    )
+    enc = encode_cluster(ClusterBatch(pods=pods, nodes=nodes), 20, 12)
+    bad = pod_violation_mask(jnp.array([0, 0, 0] + [0] * 17), enc)
+    assert bad[:3].tolist() == [True, True, False]
+
+
+def test_partial_credit_keeps_infeasible_below_feasible():
+    import jax.numpy as jnp
+
+    from schedgym.encoding import encode_cluster
+    from schedgym.env import compute_reward
+    from schedgym.types import ClusterBatch, NodeSpec, PodSpec
+
+    gib = 1024**3
+    nodes = tuple(NodeSpec(name=f"n{i}", cpu_allocatable=4.0, memory_allocatable=16 * gib) for i in range(3))
+    pods = tuple(PodSpec(name=f"p{i}", cpu_request=2.5, memory_request=1 * gib) for i in range(3))
+    enc = encode_cluster(ClusterBatch(pods=pods, nodes=nodes), 20, 12)
+    spread = jnp.array([0, 1, 2] + [0] * 17)
+    packed = jnp.array([0, 0, 1] + [0] * 17)  # p0, p1 overcommit node 0; p2 is fine
+    for w in (0.0, 5.0, 50.0):
+        bad = compute_reward(packed, enc, w)
+        assert abs(float(bad.legal_frac) - 1 / 3) < 1e-6
+        assert float(bad.reward) < float(compute_reward(spread, enc, w).reward)
+
+
+def test_jax_accepts_every_feasible_witness_on_default_device():
+    """Regression (DESIGN.md sec 11h): on GPU, default TF32 matmuls made the
+    JAX resource check reject ~4% of oracle-feasible tight packings."""
+    import jax
+    import jax.numpy as jnp
+
+    from schedgym.encoding import encode_batch
+    from schedgym.generator import generate_dataset_with_info
+    from schedgym.jax_constraints import evaluate_assignment, pod_violation_mask
+
+    data = [g for g in generate_dataset_with_info(600, seed=555_555) if all(a >= 0 for a in g.witness)]
+    enc = encode_batch([g.cluster for g in data], 20, 12)
+    wit = jnp.array([g.witness + [0] * (20 - len(g.witness)) for g in data])
+    feasible = jax.vmap(lambda a, e: evaluate_assignment(a, e).is_feasible)(wit, enc)
+    flagged = jax.vmap(lambda a, e: jnp.any(pod_violation_mask(a, e)))(wit, enc)
+    assert bool(jnp.all(feasible))
+    assert not bool(jnp.any(flagged))

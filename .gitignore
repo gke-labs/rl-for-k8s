@@ -1,0 +1,7 @@
+.venv/
+__pycache__/
+*.pyc
+*.egg-info/
+.pytest_cache/
+# checkpoints are large (~2.7 MB each); commit selected ones with `git add -f`
+runs/**/checkpoints/*.pkl

@@ -1,0 +1,41 @@
+-- held-out baseline metrics (fixed, computed once) --
+best_fit_decreasing | success  29.7% | feasible 100.0% | fully_scheduled  29.7% | active_nodes  7.82 | density 0.875
+   random_feasible | success   3.3% | feasible 100.0% | fully_scheduled   3.3% | active_nodes  5.30 | density 0.877
+-- training --
+-- imitation warm-start: 3000 iterations on 32768 witness clusters --
+bc     0 | nll  1.084 | witness-acc  51.3% |   61.7s
+              bc@0 | success   2.0% | feasible   2.0% | fully_scheduled 100.0% | active_nodes  4.83 | density 0.940
+bc   500 | nll  0.692 | witness-acc  70.5% |   87.8s
+            bc@500 | success   5.7% | feasible   5.7% | fully_scheduled 100.0% | active_nodes  6.06 | density 0.894
+bc  1000 | nll  0.617 | witness-acc  72.3% |  103.0s
+           bc@1000 | success   8.7% | feasible   8.7% | fully_scheduled 100.0% | active_nodes  6.31 | density 0.886
+bc  1500 | nll  0.612 | witness-acc  72.6% |  118.4s
+           bc@1500 | success  13.7% | feasible  13.7% | fully_scheduled 100.0% | active_nodes  6.68 | density 0.892
+bc  2000 | nll  0.495 | witness-acc  77.8% |  133.7s
+           bc@2000 | success  10.7% | feasible  10.7% | fully_scheduled 100.0% | active_nodes  6.75 | density 0.890
+bc  2500 | nll  0.488 | witness-acc  77.9% |  149.0s
+           bc@2500 | success  12.7% | feasible  12.7% | fully_scheduled 100.0% | active_nodes  6.68 | density 0.889
+bc  2999 | nll  0.580 | witness-acc  74.4% |  163.7s
+           bc@2999 | success  12.3% | feasible  12.3% | fully_scheduled 100.0% | active_nodes  7.05 | density 0.903
+-- self-imitation: 10 rounds x 64 samples on 16384 clusters (seed witness True, fresh each round True, keep top 1, KL-to-BC 0.0) --
+si   0 | best-of-64 feasible  42.5% | improved   5.0% | buffer feasible  90.0% (policy-found   5.0%) | pairs  16384 | nll 0.524 | kl 0.000 |  220.9s
+              si@0 | success  13.3% | feasible  13.3% | fully_scheduled 100.0% | active_nodes  7.12 | density 0.891
+si   1 | best-of-64 feasible  43.3% | improved   5.5% | buffer feasible  90.0% (policy-found   5.5%) | pairs  16384 | nll 0.514 | kl 0.000 |  245.2s
+              si@1 | success  14.0% | feasible  14.0% | fully_scheduled 100.0% | active_nodes  6.95 | density 0.893
+si   2 | best-of-64 feasible  45.1% | improved   5.7% | buffer feasible  90.0% (policy-found   5.7%) | pairs  16384 | nll 0.499 | kl 0.000 |  275.2s
+              si@2 | success  14.7% | feasible  14.7% | fully_scheduled 100.0% | active_nodes  6.66 | density 0.891
+si   3 | best-of-64 feasible  44.6% | improved   5.4% | buffer feasible  90.0% (policy-found   5.4%) | pairs  16384 | nll 0.495 | kl 0.000 |  303.5s
+              si@3 | success  15.3% | feasible  15.3% | fully_scheduled 100.0% | active_nodes  6.96 | density 0.881
+si   4 | best-of-64 feasible  46.3% | improved   6.0% | buffer feasible  90.0% (policy-found   6.0%) | pairs  16384 | nll 0.485 | kl 0.000 |  334.6s
+              si@4 | success  12.0% | feasible  12.0% | fully_scheduled 100.0% | active_nodes  6.81 | density 0.889
+si   5 | best-of-64 feasible  46.7% | improved   6.0% | buffer feasible  90.0% (policy-found   6.0%) | pairs  16384 | nll 0.479 | kl 0.000 |  352.7s
+              si@5 | success  15.3% | feasible  15.3% | fully_scheduled 100.0% | active_nodes  7.41 | density 0.899
+si   6 | best-of-64 feasible  47.2% | improved   5.9% | buffer feasible  90.0% (policy-found   5.9%) | pairs  16384 | nll 0.474 | kl 0.000 |  371.3s
+              si@6 | success  16.0% | feasible  16.0% | fully_scheduled 100.0% | active_nodes  6.81 | density 0.880
+si   7 | best-of-64 feasible  49.0% | improved   6.1% | buffer feasible  90.0% (policy-found   6.1%) | pairs  16384 | nll 0.469 | kl 0.000 |  389.9s
+              si@7 | success  17.0% | feasible  17.0% | fully_scheduled 100.0% | active_nodes  6.82 | density 0.888
+si   8 | best-of-64 feasible  49.4% | improved   5.9% | buffer feasible  90.0% (policy-found   5.9%) | pairs  16384 | nll 0.463 | kl 0.000 |  416.5s
+              si@8 | success  14.0% | feasible  14.0% | fully_scheduled 100.0% | active_nodes  7.10 | density 0.885
+si   9 | best-of-64 feasible  49.6% | improved   6.1% | buffer feasible  90.0% (policy-found   6.1%) | pairs  16384 | nll 0.456 | kl 0.000 |  448.1s
+              si@9 | success  16.3% | feasible  16.3% | fully_scheduled 100.0% | active_nodes  6.90 | density 0.890
+-- PPO --

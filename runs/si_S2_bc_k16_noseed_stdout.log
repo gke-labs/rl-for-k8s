@@ -1,0 +1,41 @@
+-- held-out baseline metrics (fixed, computed once) --
+best_fit_decreasing | success  29.7% | feasible 100.0% | fully_scheduled  29.7% | active_nodes  7.82 | density 0.875
+   random_feasible | success   3.3% | feasible 100.0% | fully_scheduled   3.3% | active_nodes  5.30 | density 0.877
+-- training --
+-- imitation warm-start: 3000 iterations on 32768 witness clusters --
+bc     0 | nll  1.084 | witness-acc  51.3% |   94.3s
+              bc@0 | success   2.0% | feasible   2.0% | fully_scheduled 100.0% | active_nodes  4.83 | density 0.940
+bc   500 | nll  0.694 | witness-acc  69.3% |  134.8s
+            bc@500 | success   6.7% | feasible   6.7% | fully_scheduled 100.0% | active_nodes  6.40 | density 0.896
+bc  1000 | nll  0.601 | witness-acc  72.9% |  150.5s
+           bc@1000 | success   9.3% | feasible   9.3% | fully_scheduled 100.0% | active_nodes  6.64 | density 0.899
+bc  1500 | nll  0.605 | witness-acc  73.3% |  165.9s
+           bc@1500 | success  11.0% | feasible  11.0% | fully_scheduled 100.0% | active_nodes  6.55 | density 0.894
+bc  2000 | nll  0.489 | witness-acc  77.2% |  181.3s
+           bc@2000 | success  12.0% | feasible  12.0% | fully_scheduled 100.0% | active_nodes  6.50 | density 0.893
+bc  2500 | nll  0.488 | witness-acc  76.7% |  196.9s
+           bc@2500 | success  13.3% | feasible  13.3% | fully_scheduled 100.0% | active_nodes  6.80 | density 0.894
+bc  2999 | nll  0.567 | witness-acc  75.0% |  212.4s
+           bc@2999 | success  11.3% | feasible  11.3% | fully_scheduled 100.0% | active_nodes  7.00 | density 0.894
+-- self-imitation: 10 rounds x 16 samples on 16384 clusters (seed witness: False) --
+si   0 | best-of-16 feasible  32.8% | improved  32.8% | buffer feasible  32.8% (policy-found  32.8%) | nll 0.190 |  252.1s
+              si@0 | success  12.7% | feasible  12.7% | fully_scheduled 100.0% | active_nodes  6.95 | density 0.896
+si   1 | best-of-16 feasible  34.4% | improved   5.8% | buffer feasible  37.6% (policy-found  37.6%) | nll 0.158 |  260.8s
+              si@1 | success  12.7% | feasible  12.7% | fully_scheduled 100.0% | active_nodes  7.00 | density 0.886
+si   2 | best-of-16 feasible  37.0% | improved   3.4% | buffer feasible  40.4% (policy-found  40.4%) | nll 0.134 |  269.4s
+              si@2 | success  14.7% | feasible  14.7% | fully_scheduled 100.0% | active_nodes  7.27 | density 0.894
+si   3 | best-of-16 feasible  39.9% | improved   2.5% | buffer feasible  42.4% (policy-found  42.4%) | nll 0.116 |  277.8s
+              si@3 | success  14.0% | feasible  14.0% | fully_scheduled 100.0% | active_nodes  7.02 | density 0.882
+si   4 | best-of-16 feasible  41.1% | improved   1.6% | buffer feasible  43.6% (policy-found  43.6%) | nll 0.098 |  286.2s
+              si@4 | success  16.0% | feasible  16.0% | fully_scheduled 100.0% | active_nodes  7.12 | density 0.881
+si   5 | best-of-16 feasible  42.8% | improved   1.3% | buffer feasible  44.6% (policy-found  44.6%) | nll 0.082 |  295.0s
+              si@5 | success  14.0% | feasible  14.0% | fully_scheduled 100.0% | active_nodes  7.38 | density 0.894
+si   6 | best-of-16 feasible  42.9% | improved   1.0% | buffer feasible  45.3% (policy-found  45.3%) | nll 0.074 |  303.3s
+              si@6 | success  13.0% | feasible  13.0% | fully_scheduled 100.0% | active_nodes  7.18 | density 0.891
+si   7 | best-of-16 feasible  43.5% | improved   0.8% | buffer feasible  45.8% (policy-found  45.8%) | nll 0.065 |  311.6s
+              si@7 | success  16.0% | feasible  16.0% | fully_scheduled 100.0% | active_nodes  7.15 | density 0.885
+si   8 | best-of-16 feasible  44.9% | improved   0.8% | buffer feasible  46.3% (policy-found  46.3%) | nll 0.060 |  320.0s
+              si@8 | success  14.3% | feasible  14.3% | fully_scheduled 100.0% | active_nodes  7.37 | density 0.899
+si   9 | best-of-16 feasible  44.8% | improved   0.7% | buffer feasible  46.8% (policy-found  46.8%) | nll 0.057 |  328.8s
+              si@9 | success  14.3% | feasible  14.3% | fully_scheduled 100.0% | active_nodes  7.09 | density 0.881
+-- PPO --

@@ -1,0 +1,19 @@
+{
+  "max_pods": 20,
+  "max_nodes": 12,
+  "dataset_size": 4096,
+  "batch_size": 128,
+  "num_iterations": 3000,
+  "ppo_epochs": 4,
+  "clip_eps": 0.2,
+  "learning_rate": 0.0003,
+  "value_coef": 0.5,
+  "entropy_coef": 0.01,
+  "seed": 0,
+  "log_every": 25,
+  "eval_every": 200,
+  "eval_clusters": 100,
+  "checkpoint_every": 200,
+  "run_dir": "runs/normalized_run_20261122",
+  "curriculum_stages": 1
+}

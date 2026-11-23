@@ -68,3 +68,53 @@ def test_easy_config_produces_only_resource_constraints():
         for node in cluster.nodes:
             assert not node.taints
             assert node.gpu_allocatable == 0
+
+
+from schedgym.constraints import UNASSIGNED
+from schedgym.generator import (
+    TIER_HIGH,
+    TIER_OVERFLOW,
+    TIER_VERY_HIGH,
+    cluster_utilization,
+    generate_dataset_with_info,
+)
+
+
+def test_tier_mix_is_exactly_stratified():
+    data = generate_dataset_with_info(100, seed=11)
+    counts = {t: sum(g.tier == t for g in data) for t in (TIER_HIGH, TIER_VERY_HIGH, TIER_OVERFLOW)}
+    assert counts == {TIER_HIGH: 50, TIER_VERY_HIGH: 40, TIER_OVERFLOW: 10}
+
+
+def test_schedulable_tiers_have_feasible_witness_and_target_utilization():
+    for g in generate_dataset_with_info(120, seed=5):
+        cpu_u, mem_u = cluster_utilization(g.cluster)
+        if g.tier == TIER_OVERFLOW:
+            continue
+        assert all(a != UNASSIGNED for a in g.witness)
+        assert validate_assignment(g.cluster, g.witness).is_feasible
+        lo = 0.8 if g.tier == TIER_HIGH else 0.9
+        hi = 0.9 if g.tier == TIER_HIGH else 1.0
+        assert lo - 1e-9 <= cpu_u <= hi + 1e-9
+        assert lo - 1e-9 <= mem_u <= hi + 1e-9
+
+
+def test_overflow_tier_requests_more_than_capacity():
+    for g in generate_dataset_with_info(60, seed=8):
+        if g.tier != TIER_OVERFLOW:
+            continue
+        assert max(cluster_utilization(g.cluster)) > 1.0
+        # the placeable part of the witness is still legal
+        assert validate_assignment(g.cluster, g.witness).is_feasible
+        assert any(a == UNASSIGNED for a in g.witness)
+
+
+def test_curriculum_configs_generate_valid_tiers():
+    full = GeneratorConfig()
+    easy = easy_config()
+    for t in (0.0, 0.5, 1.0):
+        cfg = interpolate_config(easy, full, t)
+        for g in generate_dataset_with_info(20, seed=3, config=cfg):
+            assert len(g.cluster.pods) <= cfg.max_pods
+            if g.tier != TIER_OVERFLOW:
+                assert validate_assignment(g.cluster, g.witness).is_feasible

@@ -17,6 +17,11 @@ dependencies = [
 dev = [
     "pytest>=8.0",
 ]
+# NVIDIA GPU support (pip-bundled CUDA 13 runtime; needs a driver that
+# supports CUDA 13). Install with: pip install -e ".[dev,cuda]"
+cuda = [
+    "jax[cuda13]",
+]
 
 [build-system]
 requires = ["setuptools>=68"]
