@@ -18,7 +18,15 @@ nodes, densely packed) assignments.
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -e ".[dev]"
+# optional, NVIDIA GPU (driver must support CUDA 13; keep the jax version
+# matching requirements-lock.txt):
+pip install "jax[cuda13]==0.10.2"
+python -c "import jax; print(jax.devices())"   # expect [CudaDevice(id=0)]
 ```
+
+On a GPU, training runs ~0.03s/iteration at `batch_size=128` (vs ~0.36s
+on CPU), plus ~10s of one-time compilation. Force CPU with
+`JAX_PLATFORMS=cpu`.
 
 ## Layout
 
