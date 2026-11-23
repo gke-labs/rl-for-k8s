@@ -33,42 +33,57 @@ on CPU), plus ~10s of one-time compilation. Force CPU with
 ```
 src/schedgym/
   types.py            # PodSpec/NodeSpec/... data model
-  yaml_io.py           # load pod/node YAML -> types
-  generator.py           # synthetic pod/node batch generator
-  constraints.py           # pure-Python constraint oracle (source of truth)
-  encoding.py                # ClusterBatch -> padded JAX-ready arrays
-  jax_constraints.py           # JAX-vectorized mirror of constraints.py
-  network.py                     # Flax transformer policy/value network
-  env.py                           # one-shot reward function
-  train.py                           # PPO training loop
-  baselines.py                         # heuristic baselines
-  eval.py                                # policy vs. baseline comparison
-tests/                                    # pytest suite
-examples/                                   # sample k8s-style pod/node YAML
+  yaml_io.py          # load pod/node YAML -> types
+  generator.py        # load-tiered synthetic clusters built around a feasible witness
+  constraints.py      # pure-Python constraint oracle (source of truth)
+  encoding.py         # ClusterBatch -> padded JAX-ready arrays
+  jax_constraints.py  # JAX-vectorized mirror of constraints.py (+ per-pod violation mask)
+  network.py          # Flax transformer policy/value network
+  env.py              # one-shot reward (normalized overcommit, partial credit)
+  train.py            # BC warm-start, self-imitation, PPO
+  baselines.py        # heuristic baselines
+  eval.py             # policy (argmax / best-of-K) vs. baselines, per load tier
+  schedule.py         # schedule YAML manifests with a trained checkpoint
+tests/                # pytest suite
+examples/             # sample k8s-style pod/node YAML
 ```
 
-## Try it
+## Synthetic data
 
-Load real-ish YAML manifests:
+`generate_dataset` builds every cluster around a hidden witness assignment,
+so feasibility is known. Tiers are exactly stratified (default 50/40/10):
+`high` (schedulable, 80-90% of total CPU and memory requested), `very_high`
+(schedulable, 90-100%) and `overflow` (105-130%, unschedulable).
+`generate_dataset_with_info` also returns each cluster's tier and witness.
+
+## Recommended training recipe
+
+Imitation warm-start from the generator's witnesses, then self-imitation
+(expert iteration) on fresh clusters each round. PPO (`--iterations`) is
+supported but currently makes this policy worse (DESIGN.md sec 11j), so it
+is off here. About 10 minutes on an RTX 500:
 
 ```bash
-python -c "
-from schedgym.yaml_io import load_cluster
-cb = load_cluster('examples/sample_pods.yaml', 'examples/sample_nodes.yaml')
-print(cb.pods, cb.nodes)
-"
+python -m schedgym.train --iterations 0 \
+  --bc-iterations 3000 --bc-dataset-size 32768 \
+  --si-rounds 30 --si-samples 64 --si-fresh-each-round \
+  --eval-every 500 --eval-clusters 300 --run-dir runs/my_run
+# -> runs/my_run/checkpoints/si.pkl
 ```
 
-Generate synthetic training data and check a trivial assignment:
+Score checkpoints against the baselines, single-shot and best-of-K, per
+load tier:
 
 ```bash
-python -c "
-from schedgym.generator import generate_dataset
-from schedgym.constraints import validate_assignment
-cluster = generate_dataset(1, seed=0)[0]
-result = validate_assignment(cluster, [0] * len(cluster.pods))
-print(result.is_feasible, result.violations)
-"
+python -m schedgym.eval runs/my_run/checkpoints/si.pkl --samples 1 16 64
+```
+
+Schedule real-ish YAML manifests (best-of-K sample-and-check, with a
+`best_fit_decreasing` fallback if no sample is feasible):
+
+```bash
+python -m schedgym.schedule examples/sample_pods.yaml examples/sample_nodes.yaml \
+  --checkpoint runs/si3_L3_si30_ppo_kl0.5/checkpoints/si.pkl --samples 16
 ```
 
 Run the test suite:
@@ -77,60 +92,19 @@ Run the test suite:
 pytest
 ```
 
-Train, with periodic held-out eval, checkpointing, and a JSONL history
-log (on this CPU-only environment, ~0.35s/iteration at `batch_size=128`
-after ~3s JIT warmup -- 3000 iterations takes ~30 minutes):
-
-```bash
-python -m schedgym.train \
-  --iterations 3000 --dataset-size 4096 --batch-size 128 \
-  --eval-every 200 --eval-clusters 100 --checkpoint-every 200 \
-  --run-dir runs/my_run
-```
-
-Reload a checkpoint and compare against the heuristic baselines on a
-fresh eval set:
-
-```python
-from schedgym.train import TrainConfig, load_checkpoint
-from schedgym.network import SchedulerPolicy
-from schedgym.generator import generate_dataset
-from schedgym.eval import evaluate_baselines, evaluate_policy
-
-cfg = TrainConfig()
-params = load_checkpoint("runs/my_run/checkpoints/latest.pkl")
-model = SchedulerPolicy()
-clusters = generate_dataset(300, seed=999999)  # any seed unseen during training
-for m in evaluate_baselines(clusters, seed=999999):
-    m.print()
-evaluate_policy(params, model, clusters, cfg.max_pods, cfg.max_nodes).print()
-```
-
 ## Status
 
-Everything runs end to end (51 passing tests, including a
-property-style check that the JAX-vectorized constraint checker agrees
-with the Python oracle across random assignments/clusters).
+See DESIGN.md sections 11b-11k for the full history. Across 5 runs of the
+recommended recipe, on 300 unseen clusters (ceiling 90%; 10% are
+deliberately unschedulable), fully-scheduled success is:
 
-A real long run is also in: `runs/long_run_20260710/` (3000 iterations,
-~30 min on CPU, logs + checkpoints + JSONL history included). Result:
-loss trains fine (~3444 -> ~150-250), but held-out task success plateaus
-at 9-13% throughout the entire run and a final check on a fresh eval
-set puts the trained policy at 6.7% success vs. 18.7%
-(`best_fit_decreasing`) / 18.3% (`random_feasible`) -- **the policy
-does not yet beat either heuristic baseline.** This is the risk
-DESIGN.md §5 predicted (one-shot joint decoding of the full constraint
-set gives the policy no way to locally re-check its own placements),
-not a pipeline bug. See DESIGN.md §11a for the full numbers and a
-prioritized list of next steps (curriculum learning first, then reward
-shaping, then the autoregressive-decode fallback) -- more raw
-iterations alone is not expected to be the fix, since the plateau looks
-flat rather than slowly rising.
+| inference | success |
+|---|---|
+| argmax (single shot) | 21.7% ± 1.7 |
+| best-of-16 | 44.8% ± 1.8 |
+| best-of-128 | 59.3% ± 1.8 |
+| `best_fit_decreasing` | 29.7% |
 
-Note also (DESIGN.md sec 11 addendum): the synthetic generator
-sometimes produces genuinely unsatisfiable pods (e.g. a GPU-requiring
-pod in a cluster that happens to have zero GPU nodes), which is
-realistic (a real cluster can have Pending pods) but means neither
-baseline nor policy should be expected to reach 100% "fully scheduled"
--- `eval.py` reports `fully_scheduled_rate` and `feasible_rate`
-separately from the combined `success_rate` for this reason.
+Best-of-128 costs ~4.3 ms/cluster batched on GPU. The committed checkpoint
+`runs/si3_L3_si30_ppo_kl0.5/checkpoints/si.pkl` is one of the five runs
+(24.3% argmax / 47.3% best-of-16 / 59.0% best-of-128).

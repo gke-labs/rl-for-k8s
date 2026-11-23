@@ -609,6 +609,35 @@ pipeline is BC → fresh-cluster self-imitation, with best-of-K sampling at
 inference. In this one-shot setting, PPO's single per-cluster reward is a
 noisier teacher than imitating oracle-verified samples.
 
+## 11k. Recipe across seeds, and best-of-K scaling (2026-11-23)
+
+New: `eval.policy_assignments(..., samples=K)` (best-of-K sample-and-check;
+the argmax is always a candidate), `python -m schedgym.eval` (per-tier
+table over checkpoints × K), and `schedgym/schedule.py` (schedule YAML
+manifests; falls back to `best_fit_decreasing` if no sample is feasible).
+
+Recipe = BC 3000 it on 32,768 clusters, then 30 fresh-cluster SI rounds,
+K=64, no PPO. Five runs: seed 0 twice (`si3_L2`, `si3_L3` `si.pkl`) and seeds
+1–3 (`runs/recipe_seed{1,2,3}`). Same 300-cluster eval set (seed 424242).
+Overall success, mean ± std over the 5 runs:
+
+| inference | overall | schedulable only |
+|---|---|---|
+| argmax | 21.7% ± 1.7 | 24.1% |
+| best-of-16 | 44.8% ± 1.8 | 49.8% |
+| best-of-32 | 49.2% ± 1.6 | 54.7% |
+| best-of-64 | 54.0% ± 2.0 | 59.9% |
+| best-of-128 | **59.3% ± 1.8** | **65.9%** |
+| `best_fit_decreasing` | 29.7% | 33.0% |
+
+Every run beats BFD from best-of-16 up. Success keeps rising with K with
+no plateau yet at 128, and both schedulable tiers improve about equally.
+Best-of-K inference is cheap: batched on the RTX 500, best-of-128 takes
+~4.3 ms/cluster vs ~2.8 ms for argmax and ~4.8 ms for BFD (Python oracle).
+Single-shot argmax (21.7%) is still below BFD. Closing that gap is the job
+of the autoregressive decoder (sec 5), which would also let action masking
+prevent most overcommits instead of sampling around them.
+
 ## 11. Known risks / open items
 
 - One-shot + full inter-pod constraints is the hardest combination we
