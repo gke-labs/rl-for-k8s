@@ -168,3 +168,25 @@ def test_self_imitation_kl_metric_zero_when_off(tmp_path):
     )
     train(cfg, verbose=False)
     assert _si_rounds(tmp_path)[0]["si_kl_to_bc"] == 0.0
+
+
+def test_best_of_k_never_worse_than_argmax_and_schedule_is_feasible():
+    import jax
+
+    from schedgym.eval import _score_assignments, policy_assignments
+    from schedgym.generator import generate_dataset
+    from schedgym.network import SchedulerPolicy
+    from schedgym.schedule import schedule
+    from schedgym.encoding import encode_cluster
+
+    clusters = generate_dataset(24, seed=3)
+    model = SchedulerPolicy()
+    params = model.init(jax.random.PRNGKey(0), encode_cluster(clusters[0], 20, 12))
+    one = _score_assignments("a", clusters, policy_assignments(params, model, clusters, 20, 12, samples=1))
+    many = _score_assignments("k", clusters, policy_assignments(params, model, clusters, 20, 12, samples=32))
+    # argmax is always one of the best-of-K candidates
+    assert many.feasible_rate >= one.feasible_rate
+    for c in clusters[:6]:
+        res = schedule(c, params, model, samples=8)
+        assert res.feasible  # policy result, or BFD fallback (feasible, maybe with Pending pods)
+        assert len(res.assignment) == len(c.pods)
