@@ -69,6 +69,26 @@ def _existing_usage(node: NodeSpec) -> np.ndarray:
     return usage
 
 
+def _resource_scale(nodes: list[NodeSpec]) -> np.ndarray:
+    """Per-resource normalizer for network inputs: the largest node's
+    allocatable [cpu, mem GiB, gpu, ephemeral GiB] in this cluster (1.0 where
+    no node has any). Network sees requests/capacity as fractions of the
+    biggest node, so feature magnitudes stay O(1) regardless of whether the
+    cluster is 4-core or 32-core machines. Constraint arrays (pod_resources /
+    node_resources) stay in raw units."""
+    if not nodes:
+        return np.ones(4, dtype=np.float32)
+    alloc = np.array(
+        [
+            [n.cpu_allocatable, n.memory_allocatable / GIB, float(n.gpu_allocatable), n.ephemeral_storage_allocatable / GIB]
+            for n in nodes
+        ],
+        dtype=np.float32,
+    )
+    scale = alloc.max(axis=0)
+    return np.where(scale > 0, scale, 1.0).astype(np.float32)
+
+
 def _pod_fits(pod: PodSpec, node: NodeSpec, remaining: np.ndarray) -> bool:
     req = np.array(
         [pod.cpu_request, pod.memory_request / GIB, pod.gpu_request, pod.ephemeral_storage_request / GIB],
@@ -140,6 +160,7 @@ def encode_cluster(cluster: ClusterBatch, max_pods: int, max_nodes: int) -> Enco
     if len(nodes) > max_nodes:
         raise ValueError(f"cluster has {len(nodes)} nodes > max_nodes={max_nodes}")
     P, N = max_pods, max_nodes
+    scale = _resource_scale(nodes)
 
     pod_mask = np.zeros(P, dtype=bool)
     pod_mask[: len(pods)] = True
@@ -165,10 +186,13 @@ def encode_cluster(cluster: ClusterBatch, max_pods: int, max_nodes: int) -> Enco
 
     for i, pod in enumerate(pods):
         pod_numeric[i] = [
-            pod.cpu_request,
-            pod.memory_request / GIB,
-            float(pod.gpu_request),
-            pod.ephemeral_storage_request / GIB,
+            *(
+                np.array(
+                    [pod.cpu_request, pod.memory_request / GIB, float(pod.gpu_request), pod.ephemeral_storage_request / GIB],
+                    dtype=np.float32,
+                )
+                / scale
+            ),
             float(len(pod.host_ports)),
             float(pod.node_affinity is not None),
             float(pod.pod_affinity is not None),
@@ -233,12 +257,20 @@ def encode_cluster(cluster: ClusterBatch, max_pods: int, max_nodes: int) -> Enco
     for j, node in enumerate(nodes):
         existing_usage = _existing_usage(node)
         node_numeric[j] = [
-            node.cpu_allocatable,
-            node.memory_allocatable / GIB,
-            float(node.gpu_allocatable),
-            node.ephemeral_storage_allocatable / GIB,
+            *(
+                np.array(
+                    [
+                        node.cpu_allocatable,
+                        node.memory_allocatable / GIB,
+                        float(node.gpu_allocatable),
+                        node.ephemeral_storage_allocatable / GIB,
+                    ],
+                    dtype=np.float32,
+                )
+                / scale
+            ),
             float(node.unschedulable),
-            *existing_usage,
+            *(existing_usage / scale),
         ]
         node_labels[j] = _labels_bag(node.labels)
         node_taints[j] = _taints_bag(node)
