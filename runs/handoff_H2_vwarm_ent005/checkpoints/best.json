@@ -1,0 +1,12 @@
+{
+  "iteration": "bc_2800",
+  "eval": {
+    "name": "bc@2800",
+    "num_clusters": 300,
+    "fully_scheduled_rate": 1.0,
+    "feasible_rate": 0.15666666666666668,
+    "success_rate": 0.15666666666666668,
+    "mean_active_nodes": 6.872340425531915,
+    "mean_packing_density": 0.8854872078137953
+  }
+}

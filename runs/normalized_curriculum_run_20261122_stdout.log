@@ -1,0 +1,148 @@
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+-- curriculum stage 0/5: nodes[3-5] pods[3-8] gpu_pod=0.00 zone_pinned=0.00 spread=0.00 co_locate=0.00 host_port=0.00 --
+-- held-out baseline metrics (fixed, computed once) --
+best_fit_decreasing | success  25.0% | feasible 100.0% | fully_scheduled  25.0% | active_nodes  7.76 | density 0.896
+   random_feasible | success   0.0% | feasible 100.0% | fully_scheduled   0.0% | active_nodes   nan | density   nan
+-- training --
+iter    0 | reward  -12.543 | feasible  5.5% | active_nodes  3.31 | loss   35.865 |    2.9s
+          policy@0 | success   1.0% | feasible   1.0% | fully_scheduled 100.0% | active_nodes  5.00 | density 0.931
+iter   25 | reward  -11.044 | feasible 14.8% | active_nodes  3.60 | loss   11.721 |   16.1s
+iter   50 | reward  -12.046 | feasible 17.2% | active_nodes  3.72 | loss   13.767 |   27.1s
+iter   75 | reward  -10.190 | feasible 25.8% | active_nodes  3.67 | loss   15.886 |   38.2s
+iter  100 | reward  -10.142 | feasible 23.4% | active_nodes  3.59 | loss   11.686 |   49.4s
+iter  125 | reward  -10.680 | feasible 23.4% | active_nodes  3.50 | loss   10.666 |   60.7s
+iter  150 | reward  -11.742 | feasible 14.1% | active_nodes  3.55 | loss   12.450 |   71.9s
+iter  175 | reward  -12.456 | feasible 11.7% | active_nodes  3.13 | loss   10.142 |   83.1s
+iter  200 | reward  -10.425 | feasible 12.5% | active_nodes  3.52 | loss    8.533 |  102.6s
+        policy@200 | success   1.0% | feasible   1.0% | fully_scheduled 100.0% | active_nodes  9.00 | density 0.861
+iter  225 | reward  -10.240 | feasible 14.1% | active_nodes  3.36 | loss    8.076 |  131.3s
+iter  250 | reward  -10.549 | feasible 17.2% | active_nodes  3.56 | loss    9.173 |  158.2s
+iter  275 | reward  -10.204 | feasible 15.6% | active_nodes  3.54 | loss    8.789 |  184.6s
+iter  300 | reward   -9.400 | feasible 20.3% | active_nodes  3.49 | loss    9.524 |  200.8s
+iter  325 | reward   -9.594 | feasible 22.7% | active_nodes  3.61 | loss    8.947 |  211.9s
+iter  350 | reward   -9.327 | feasible 25.0% | active_nodes  3.62 | loss    7.838 |  223.1s
+iter  375 | reward   -9.786 | feasible 17.2% | active_nodes  3.52 | loss    7.636 |  250.9s
+iter  400 | reward   -8.783 | feasible 21.1% | active_nodes  3.48 | loss    6.451 |  278.2s
+        policy@400 | success   6.0% | feasible   6.0% | fully_scheduled 100.0% | active_nodes  6.83 | density 0.910
+iter  425 | reward   -9.550 | feasible 25.0% | active_nodes  3.73 | loss    9.126 |  304.6s
+iter  450 | reward   -9.859 | feasible 18.8% | active_nodes  3.51 | loss    7.921 |  316.8s
+iter  475 | reward  -10.048 | feasible 14.8% | active_nodes  3.54 | loss    7.788 |  327.9s
+-- curriculum stage 1/5: nodes[3-6] pods[3-10] gpu_pod=0.10 zone_pinned=0.03 spread=0.07 co_locate=0.02 host_port=0.02 --
+iter  500 | reward  -11.354 | feasible 18.8% | active_nodes  3.98 | loss   13.553 |  349.4s
+iter  525 | reward  -12.444 | feasible 12.5% | active_nodes  3.95 | loss   12.227 |  377.8s
+iter  550 | reward  -12.096 | feasible  9.4% | active_nodes  3.95 | loss    9.078 |  404.8s
+iter  575 | reward  -12.494 | feasible 14.8% | active_nodes  3.88 | loss   12.377 |  424.3s
+iter  600 | reward  -12.561 | feasible  7.8% | active_nodes  3.79 | loss   10.595 |  435.2s
+        policy@600 | success   1.0% | feasible   1.0% | fully_scheduled 100.0% | active_nodes  4.00 | density 0.891
+iter  625 | reward  -12.878 | feasible 12.5% | active_nodes  3.71 | loss   11.837 |  446.4s
+iter  650 | reward  -14.415 | feasible  1.6% | active_nodes  3.07 | loss    8.367 |  469.0s
+iter  675 | reward  -13.149 | feasible  7.0% | active_nodes  3.62 | loss   10.150 |  495.4s
+iter  700 | reward  -13.551 | feasible  6.2% | active_nodes  3.77 | loss   10.687 |  521.3s
+iter  725 | reward  -14.324 | feasible 10.2% | active_nodes  3.80 | loss   11.145 |  538.3s
+iter  750 | reward  -12.645 | feasible  8.6% | active_nodes  3.86 | loss    9.537 |  549.2s
+iter  775 | reward  -12.796 | feasible  9.4% | active_nodes  3.60 | loss    8.302 |  560.3s
+iter  800 | reward  -13.104 | feasible  8.6% | active_nodes  3.77 | loss    8.317 |  585.2s
+        policy@800 | success   2.0% | feasible   2.0% | fully_scheduled 100.0% | active_nodes  5.50 | density 0.969
+iter  825 | reward  -14.315 | feasible  7.0% | active_nodes  3.77 | loss   10.726 |  612.8s
+iter  850 | reward  -13.344 | feasible  8.6% | active_nodes  3.68 | loss    8.973 |  637.3s
+iter  875 | reward  -12.111 | feasible 10.9% | active_nodes  3.65 | loss    6.839 |  654.3s
+iter  900 | reward  -13.152 | feasible  9.4% | active_nodes  3.77 | loss   11.030 |  665.3s
+iter  925 | reward  -11.452 | feasible 13.3% | active_nodes  3.62 | loss    7.695 |  676.6s
+iter  950 | reward  -12.670 | feasible  9.4% | active_nodes  3.78 | loss   10.301 |  706.5s
+iter  975 | reward  -12.817 | feasible 10.2% | active_nodes  3.71 | loss   10.558 |  733.7s
+-- curriculum stage 2/5: nodes[3-8] pods[3-13] gpu_pod=0.20 zone_pinned=0.06 spread=0.14 co_locate=0.04 host_port=0.04 --
+iter 1000 | reward  -18.284 | feasible  3.1% | active_nodes  4.12 | loss   38.229 |  760.3s
+       policy@1000 | success   1.0% | feasible   1.0% | fully_scheduled 100.0% | active_nodes  5.00 | density 0.956
+iter 1025 | reward  -18.272 | feasible  2.3% | active_nodes  4.05 | loss   15.316 |  771.3s
+iter 1050 | reward  -20.648 | feasible  1.6% | active_nodes  3.94 | loss   18.193 |  782.2s
+iter 1075 | reward  -17.922 | feasible  1.6% | active_nodes  3.98 | loss   11.539 |  798.3s
+iter 1100 | reward  -20.150 | feasible  2.3% | active_nodes  4.13 | loss   24.769 |  825.4s
+iter 1125 | reward  -20.622 | feasible  0.0% | active_nodes  3.95 | loss   15.786 |  849.7s
+iter 1150 | reward  -19.690 | feasible  2.3% | active_nodes  4.16 | loss   18.213 |  872.5s
+iter 1175 | reward  -20.608 | feasible  1.6% | active_nodes  4.22 | loss   19.075 |  883.5s
+iter 1200 | reward  -18.597 | feasible  2.3% | active_nodes  4.01 | loss   14.506 |  894.4s
+       policy@1200 | success   1.0% | feasible   1.0% | fully_scheduled 100.0% | active_nodes  6.00 | density 0.981
+iter 1225 | reward  -18.645 | feasible  5.5% | active_nodes  4.19 | loss   17.299 |  908.0s
+iter 1250 | reward  -18.589 | feasible  4.7% | active_nodes  3.98 | loss   12.307 |  936.4s
+iter 1275 | reward  -18.286 | feasible  1.6% | active_nodes  4.00 | loss   13.364 |  960.7s
+iter 1300 | reward  -18.361 | feasible  1.6% | active_nodes  3.85 | loss   11.745 |  984.7s
+iter 1325 | reward  -18.829 | feasible  5.5% | active_nodes  4.23 | loss   15.953 |  996.0s
+iter 1350 | reward  -18.863 | feasible  2.3% | active_nodes  4.34 | loss   13.708 | 1006.9s
+iter 1375 | reward  -19.487 | feasible  2.3% | active_nodes  4.33 | loss   11.189 | 1018.1s
+iter 1400 | reward  -20.099 | feasible  3.9% | active_nodes  4.17 | loss   15.602 | 1048.0s
+       policy@1400 | success   1.0% | feasible   1.0% | fully_scheduled 100.0% | active_nodes  6.00 | density 0.981
+iter 1425 | reward  -17.834 | feasible  3.9% | active_nodes  4.04 | loss    9.709 | 1075.8s
+iter 1450 | reward  -19.095 | feasible  2.3% | active_nodes  3.93 | loss   14.509 | 1099.7s
+iter 1475 | reward  -20.774 | feasible  2.3% | active_nodes  3.91 | loss   13.204 | 1112.5s
+-- curriculum stage 3/5: nodes[4-9] pods[4-15] gpu_pod=0.30 zone_pinned=0.09 spread=0.21 co_locate=0.06 host_port=0.06 --
+iter 1500 | reward  -26.802 | feasible  0.0% | active_nodes  4.54 | loss   28.081 | 1126.4s
+iter 1525 | reward  -23.164 | feasible  0.8% | active_nodes  4.80 | loss   29.539 | 1140.0s
+iter 1550 | reward  -25.891 | feasible  3.1% | active_nodes  4.64 | loss   27.082 | 1167.9s
+iter 1575 | reward  -25.176 | feasible  0.8% | active_nodes  4.30 | loss   31.523 | 1192.6s
+iter 1600 | reward  -22.658 | feasible  0.0% | active_nodes  4.22 | loss   17.311 | 1216.5s
+       policy@1600 | success   0.0% | feasible   0.0% | fully_scheduled 100.0% | active_nodes   nan | density   nan
+iter 1625 | reward  -25.212 | feasible  0.8% | active_nodes  4.51 | loss   20.580 | 1228.8s
+iter 1650 | reward  -24.602 | feasible  1.6% | active_nodes  4.34 | loss   22.228 | 1239.7s
+iter 1675 | reward  -23.052 | feasible  0.0% | active_nodes  4.44 | loss   12.239 | 1253.9s
+iter 1700 | reward  -25.997 | feasible  0.0% | active_nodes  4.78 | loss   28.956 | 1281.6s
+iter 1725 | reward  -23.253 | feasible  0.0% | active_nodes  4.55 | loss   13.609 | 1306.0s
+iter 1750 | reward  -23.470 | feasible  0.0% | active_nodes  4.61 | loss   17.288 | 1330.2s
+iter 1775 | reward  -26.252 | feasible  0.0% | active_nodes  4.40 | loss   18.223 | 1342.3s
+iter 1800 | reward  -25.749 | feasible  0.8% | active_nodes  4.54 | loss   16.466 | 1353.1s
+       policy@1800 | success   0.0% | feasible   0.0% | fully_scheduled 100.0% | active_nodes   nan | density   nan
+iter 1825 | reward  -24.820 | feasible  0.0% | active_nodes  4.57 | loss   19.421 | 1368.5s
+iter 1850 | reward  -26.025 | feasible  0.0% | active_nodes  4.39 | loss   16.397 | 1395.5s
+iter 1875 | reward  -25.394 | feasible  0.8% | active_nodes  4.56 | loss   17.195 | 1419.8s
+iter 1900 | reward  -31.910 | feasible  0.0% | active_nodes  3.85 | loss   26.831 | 1443.3s
+iter 1925 | reward  -26.396 | feasible  2.3% | active_nodes  4.34 | loss   16.443 | 1456.8s
+iter 1950 | reward  -28.295 | feasible  2.3% | active_nodes  3.80 | loss   19.407 | 1467.7s
+iter 1975 | reward  -26.421 | feasible  0.8% | active_nodes  4.09 | loss   19.934 | 1479.3s
+-- curriculum stage 4/5: nodes[4-11] pods[4-18] gpu_pod=0.40 zone_pinned=0.12 spread=0.28 co_locate=0.08 host_port=0.08 --
+iter 2000 | reward  -28.822 | feasible  0.0% | active_nodes  5.42 | loss   33.736 | 1514.8s
+       policy@2000 | success   0.0% | feasible   0.0% | fully_scheduled 100.0% | active_nodes   nan | density   nan
+iter 2025 | reward  -31.627 | feasible  0.0% | active_nodes  5.05 | loss   25.368 | 1539.1s
+iter 2050 | reward  -30.181 | feasible  1.6% | active_nodes  5.16 | loss   23.431 | 1562.2s
+iter 2075 | reward  -34.895 | feasible  0.0% | active_nodes  4.95 | loss   27.628 | 1573.2s
+iter 2100 | reward  -36.554 | feasible  0.0% | active_nodes  4.41 | loss   29.082 | 1584.0s
+iter 2125 | reward  -39.114 | feasible  0.8% | active_nodes  4.20 | loss   32.389 | 1600.8s
+iter 2150 | reward  -38.362 | feasible  0.8% | active_nodes  4.42 | loss   28.570 | 1627.3s
+iter 2175 | reward  -38.065 | feasible  0.0% | active_nodes  4.30 | loss   31.645 | 1651.4s
+iter 2200 | reward  -36.736 | feasible  0.8% | active_nodes  4.74 | loss   28.941 | 1678.0s
+       policy@2200 | success   2.0% | feasible   2.0% | fully_scheduled 100.0% | active_nodes  6.00 | density 0.916
+iter 2225 | reward  -38.344 | feasible  1.6% | active_nodes  4.41 | loss   18.446 | 1689.0s
+iter 2250 | reward  -35.351 | feasible  0.0% | active_nodes  4.76 | loss   21.780 | 1699.8s
+iter 2275 | reward  -31.188 | feasible  1.6% | active_nodes  4.70 | loss   27.198 | 1716.0s
+iter 2300 | reward  -33.142 | feasible  0.0% | active_nodes  5.16 | loss   24.982 | 1742.8s
+iter 2325 | reward  -31.523 | feasible  0.0% | active_nodes  4.86 | loss   20.666 | 1766.6s
+iter 2350 | reward  -35.369 | feasible  0.0% | active_nodes  4.66 | loss   29.950 | 1789.9s
+iter 2375 | reward  -31.449 | feasible  0.0% | active_nodes  4.92 | loss   17.138 | 1801.6s
+iter 2400 | reward  -33.468 | feasible  0.0% | active_nodes  4.77 | loss   30.932 | 1812.4s
+       policy@2400 | success   0.0% | feasible   0.0% | fully_scheduled 100.0% | active_nodes   nan | density   nan
+iter 2425 | reward  -32.540 | feasible  0.0% | active_nodes  4.72 | loss   27.533 | 1827.4s
+iter 2450 | reward  -33.714 | feasible  0.8% | active_nodes  4.75 | loss   26.785 | 1854.6s
+iter 2475 | reward  -34.888 | feasible  1.6% | active_nodes  5.13 | loss   28.747 | 1882.5s
+-- curriculum stage 5/5: nodes[4-12] pods[4-20] gpu_pod=0.50 zone_pinned=0.15 spread=0.35 co_locate=0.10 host_port=0.10 --
+iter 2500 | reward  -34.945 | feasible  1.6% | active_nodes  5.26 | loss   72.351 | 1911.4s
+iter 2525 | reward  -38.751 | feasible  0.0% | active_nodes  5.12 | loss   46.518 | 1922.2s
+iter 2550 | reward  -35.045 | feasible  0.8% | active_nodes  5.13 | loss   31.694 | 1933.2s
+iter 2575 | reward  -36.283 | feasible  0.0% | active_nodes  5.26 | loss   35.165 | 1951.3s
+iter 2600 | reward  -34.923 | feasible  0.0% | active_nodes  5.28 | loss   32.960 | 1978.2s
+       policy@2600 | success   0.0% | feasible   0.0% | fully_scheduled 100.0% | active_nodes   nan | density   nan
+iter 2625 | reward  -35.911 | feasible  0.0% | active_nodes  5.62 | loss   30.438 | 2002.5s
+iter 2650 | reward  -37.587 | feasible  0.8% | active_nodes  5.22 | loss   34.068 | 2026.4s
+iter 2675 | reward  -38.116 | feasible  0.8% | active_nodes  5.38 | loss   49.319 | 2038.8s
+iter 2700 | reward  -37.621 | feasible  0.8% | active_nodes  5.05 | loss   44.459 | 2049.6s
+iter 2725 | reward  -36.631 | feasible  0.8% | active_nodes  5.52 | loss   31.086 | 2063.9s
+iter 2750 | reward  -39.096 | feasible  0.8% | active_nodes  4.80 | loss   35.180 | 2092.0s
+iter 2775 | reward  -43.756 | feasible  3.1% | active_nodes  4.58 | loss   40.102 | 2116.2s
+iter 2800 | reward  -42.001 | feasible  0.0% | active_nodes  4.55 | loss   34.814 | 2140.1s
+       policy@2800 | success   1.0% | feasible   1.0% | fully_scheduled 100.0% | active_nodes  4.00 | density 0.891
+iter 2825 | reward  -40.200 | feasible  0.0% | active_nodes  4.53 | loss   30.381 | 2153.7s
+iter 2850 | reward  -42.248 | feasible  0.0% | active_nodes  4.67 | loss   23.005 | 2164.6s
+iter 2875 | reward  -41.166 | feasible  3.1% | active_nodes  4.66 | loss   29.833 | 2177.1s
+iter 2900 | reward  -36.934 | feasible  0.0% | active_nodes  4.55 | loss   23.852 | 2205.8s
+iter 2925 | reward  -42.583 | feasible  0.0% | active_nodes  4.67 | loss   26.472 | 2231.4s
+iter 2950 | reward  -40.417 | feasible  0.8% | active_nodes  4.37 | loss   37.003 | 2258.5s
+iter 2975 | reward  -41.752 | feasible  0.8% | active_nodes  4.68 | loss   27.480 | 2271.7s
+iter 2999 | reward  -42.555 | feasible  0.0% | active_nodes  4.70 | loss   22.259 | 2280.3s
+       policy@2999 | success   2.0% | feasible   2.0% | fully_scheduled 100.0% | active_nodes  4.50 | density 0.911

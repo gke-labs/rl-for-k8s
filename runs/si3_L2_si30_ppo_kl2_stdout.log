@@ -1,0 +1,123 @@
+-- held-out baseline metrics (fixed, computed once) --
+best_fit_decreasing | success  29.7% | feasible 100.0% | fully_scheduled  29.7% | active_nodes  7.82 | density 0.875
+   random_feasible | success   3.3% | feasible 100.0% | fully_scheduled   3.3% | active_nodes  5.30 | density 0.877
+-- training --
+-- imitation warm-start: 3000 iterations on 32768 witness clusters --
+bc     0 | nll  1.084 | witness-acc  51.3% |   45.3s
+              bc@0 | success   2.0% | feasible   2.0% | fully_scheduled 100.0% | active_nodes  4.83 | density 0.940
+bc   250 | nll  0.747 | witness-acc  67.7% |   61.8s
+            bc@250 | success   4.7% | feasible   4.7% | fully_scheduled 100.0% | active_nodes  6.29 | density 0.888
+bc   500 | nll  0.695 | witness-acc  69.3% |   68.0s
+            bc@500 | success   6.0% | feasible   6.0% | fully_scheduled 100.0% | active_nodes  6.28 | density 0.894
+bc   750 | nll  0.640 | witness-acc  72.3% |   74.1s
+            bc@750 | success   7.7% | feasible   7.7% | fully_scheduled 100.0% | active_nodes  6.43 | density 0.886
+bc  1000 | nll  0.619 | witness-acc  72.7% |   80.1s
+           bc@1000 | success   8.7% | feasible   8.7% | fully_scheduled 100.0% | active_nodes  6.23 | density 0.894
+bc  1250 | nll  0.596 | witness-acc  73.2% |   86.1s
+           bc@1250 | success  10.3% | feasible  10.3% | fully_scheduled 100.0% | active_nodes  7.00 | density 0.889
+bc  1500 | nll  0.616 | witness-acc  72.4% |   92.3s
+           bc@1500 | success   9.0% | feasible   9.0% | fully_scheduled 100.0% | active_nodes  6.41 | density 0.887
+bc  1750 | nll  0.540 | witness-acc  76.2% |   98.0s
+           bc@1750 | success  13.0% | feasible  13.0% | fully_scheduled 100.0% | active_nodes  6.74 | density 0.884
+bc  2000 | nll  0.488 | witness-acc  77.9% |  104.1s
+           bc@2000 | success  12.7% | feasible  12.7% | fully_scheduled 100.0% | active_nodes  6.68 | density 0.890
+bc  2250 | nll  0.467 | witness-acc  77.6% |  110.1s
+           bc@2250 | success  14.3% | feasible  14.3% | fully_scheduled 100.0% | active_nodes  6.81 | density 0.889
+bc  2500 | nll  0.504 | witness-acc  76.2% |  116.1s
+           bc@2500 | success  13.7% | feasible  13.7% | fully_scheduled 100.0% | active_nodes  6.93 | density 0.885
+bc  2750 | nll  0.563 | witness-acc  74.9% |  121.9s
+           bc@2750 | success  12.7% | feasible  12.7% | fully_scheduled 100.0% | active_nodes  6.71 | density 0.886
+bc  2999 | nll  0.555 | witness-acc  74.1% |  127.8s
+           bc@2999 | success  15.0% | feasible  15.0% | fully_scheduled 100.0% | active_nodes  7.16 | density 0.896
+-- self-imitation: 30 rounds x 64 samples on 16384 clusters (seed witness True, fresh each round True, keep top 1, KL-to-BC 0.0) --
+si   0 | best-of-64 feasible  42.9% | improved   4.9% | buffer feasible  90.0% (policy-found   4.9%) | pairs  16384 | nll 0.521 | kl 0.000 |  159.6s
+              si@0 | success  14.0% | feasible  14.0% | fully_scheduled 100.0% | active_nodes  6.93 | density 0.888
+si   1 | best-of-64 feasible  42.5% | improved   5.3% | buffer feasible  90.0% (policy-found   5.3%) | pairs  16384 | nll 0.512 | kl 0.000 |  184.5s
+              si@1 | success  16.3% | feasible  16.3% | fully_scheduled 100.0% | active_nodes  6.90 | density 0.892
+si   2 | best-of-64 feasible  44.7% | improved   5.5% | buffer feasible  90.0% (policy-found   5.5%) | pairs  16384 | nll 0.496 | kl 0.000 |  208.6s
+              si@2 | success  17.7% | feasible  17.7% | fully_scheduled 100.0% | active_nodes  6.87 | density 0.885
+si   3 | best-of-64 feasible  46.6% | improved   5.9% | buffer feasible  90.0% (policy-found   5.9%) | pairs  16384 | nll 0.496 | kl 0.000 |  229.2s
+              si@3 | success  13.3% | feasible  13.3% | fully_scheduled 100.0% | active_nodes  7.30 | density 0.890
+si   4 | best-of-64 feasible  47.2% | improved   6.4% | buffer feasible  90.0% (policy-found   6.4%) | pairs  16384 | nll 0.484 | kl 0.000 |  251.6s
+              si@4 | success  16.0% | feasible  16.0% | fully_scheduled 100.0% | active_nodes  7.19 | density 0.893
+si   5 | best-of-64 feasible  48.0% | improved   6.1% | buffer feasible  90.0% (policy-found   6.1%) | pairs  16384 | nll 0.477 | kl 0.000 |  275.7s
+              si@5 | success  16.7% | feasible  16.7% | fully_scheduled 100.0% | active_nodes  7.32 | density 0.898
+si   6 | best-of-64 feasible  46.3% | improved   5.9% | buffer feasible  90.0% (policy-found   5.9%) | pairs  16384 | nll 0.474 | kl 0.000 |  300.4s
+              si@6 | success  15.7% | feasible  15.7% | fully_scheduled 100.0% | active_nodes  7.19 | density 0.890
+si   7 | best-of-64 feasible  48.3% | improved   6.5% | buffer feasible  90.0% (policy-found   6.5%) | pairs  16384 | nll 0.468 | kl 0.000 |  321.8s
+              si@7 | success  17.7% | feasible  17.7% | fully_scheduled 100.0% | active_nodes  7.19 | density 0.883
+si   8 | best-of-64 feasible  50.1% | improved   6.7% | buffer feasible  90.0% (policy-found   6.7%) | pairs  16384 | nll 0.462 | kl 0.000 |  340.7s
+              si@8 | success  16.3% | feasible  16.3% | fully_scheduled 100.0% | active_nodes  7.00 | density 0.894
+si   9 | best-of-64 feasible  49.8% | improved   7.2% | buffer feasible  90.0% (policy-found   7.2%) | pairs  16384 | nll 0.456 | kl 0.000 |  359.2s
+              si@9 | success  17.3% | feasible  17.3% | fully_scheduled 100.0% | active_nodes  7.08 | density 0.885
+si  10 | best-of-64 feasible  50.2% | improved   7.0% | buffer feasible  90.0% (policy-found   7.0%) | pairs  16384 | nll 0.453 | kl 0.000 |  377.7s
+             si@10 | success  19.7% | feasible  19.7% | fully_scheduled 100.0% | active_nodes  7.25 | density 0.887
+si  11 | best-of-64 feasible  51.3% | improved   7.3% | buffer feasible  90.0% (policy-found   7.3%) | pairs  16384 | nll 0.447 | kl 0.000 |  400.0s
+             si@11 | success  16.3% | feasible  16.3% | fully_scheduled 100.0% | active_nodes  6.86 | density 0.886
+si  12 | best-of-64 feasible  51.8% | improved   7.0% | buffer feasible  90.0% (policy-found   7.0%) | pairs  16384 | nll 0.445 | kl 0.000 |  425.0s
+             si@12 | success  17.3% | feasible  17.3% | fully_scheduled 100.0% | active_nodes  7.29 | density 0.880
+si  13 | best-of-64 feasible  50.4% | improved   6.8% | buffer feasible  90.0% (policy-found   6.8%) | pairs  16384 | nll 0.443 | kl 0.000 |  448.6s
+             si@13 | success  19.3% | feasible  19.3% | fully_scheduled 100.0% | active_nodes  7.03 | density 0.889
+si  14 | best-of-64 feasible  51.4% | improved   7.1% | buffer feasible  90.0% (policy-found   7.1%) | pairs  16384 | nll 0.440 | kl 0.000 |  474.0s
+             si@14 | success  18.7% | feasible  18.7% | fully_scheduled 100.0% | active_nodes  6.98 | density 0.884
+si  15 | best-of-64 feasible  51.8% | improved   7.2% | buffer feasible  90.0% (policy-found   7.2%) | pairs  16384 | nll 0.436 | kl 0.000 |  496.7s
+             si@15 | success  19.3% | feasible  19.3% | fully_scheduled 100.0% | active_nodes  6.93 | density 0.884
+si  16 | best-of-64 feasible  52.4% | improved   6.9% | buffer feasible  90.0% (policy-found   6.9%) | pairs  16384 | nll 0.434 | kl 0.000 |  515.2s
+             si@16 | success  18.0% | feasible  18.0% | fully_scheduled 100.0% | active_nodes  7.17 | density 0.891
+si  17 | best-of-64 feasible  52.7% | improved   7.9% | buffer feasible  90.0% (policy-found   7.9%) | pairs  16384 | nll 0.432 | kl 0.000 |  534.9s
+             si@17 | success  19.0% | feasible  19.0% | fully_scheduled 100.0% | active_nodes  7.00 | density 0.890
+si  18 | best-of-64 feasible  52.4% | improved   7.6% | buffer feasible  90.0% (policy-found   7.6%) | pairs  16384 | nll 0.427 | kl 0.000 |  555.6s
+             si@18 | success  21.3% | feasible  21.3% | fully_scheduled 100.0% | active_nodes  7.03 | density 0.890
+si  19 | best-of-64 feasible  53.6% | improved   7.7% | buffer feasible  90.0% (policy-found   7.7%) | pairs  16384 | nll 0.425 | kl 0.000 |  580.6s
+             si@19 | success  19.0% | feasible  19.0% | fully_scheduled 100.0% | active_nodes  6.86 | density 0.894
+si  20 | best-of-64 feasible  53.2% | improved   7.3% | buffer feasible  90.0% (policy-found   7.3%) | pairs  16384 | nll 0.421 | kl 0.000 |  606.7s
+             si@20 | success  19.7% | feasible  19.7% | fully_scheduled 100.0% | active_nodes  6.90 | density 0.887
+si  21 | best-of-64 feasible  53.2% | improved   7.5% | buffer feasible  90.0% (policy-found   7.5%) | pairs  16384 | nll 0.425 | kl 0.000 |  632.0s
+             si@21 | success  20.3% | feasible  20.3% | fully_scheduled 100.0% | active_nodes  6.87 | density 0.886
+si  22 | best-of-64 feasible  54.1% | improved   7.7% | buffer feasible  90.0% (policy-found   7.7%) | pairs  16384 | nll 0.423 | kl 0.000 |  657.8s
+             si@22 | success  17.7% | feasible  17.7% | fully_scheduled 100.0% | active_nodes  7.32 | density 0.893
+si  23 | best-of-64 feasible  53.9% | improved   7.3% | buffer feasible  90.0% (policy-found   7.3%) | pairs  16384 | nll 0.413 | kl 0.000 |  679.2s
+             si@23 | success  20.0% | feasible  20.0% | fully_scheduled 100.0% | active_nodes  7.15 | density 0.894
+si  24 | best-of-64 feasible  53.3% | improved   7.8% | buffer feasible  90.0% (policy-found   7.8%) | pairs  16384 | nll 0.416 | kl 0.000 |  699.3s
+             si@24 | success  18.7% | feasible  18.7% | fully_scheduled 100.0% | active_nodes  7.02 | density 0.892
+si  25 | best-of-64 feasible  53.8% | improved   7.3% | buffer feasible  90.0% (policy-found   7.3%) | pairs  16384 | nll 0.407 | kl 0.000 |  719.3s
+             si@25 | success  18.7% | feasible  18.7% | fully_scheduled 100.0% | active_nodes  7.07 | density 0.886
+si  26 | best-of-64 feasible  54.2% | improved   8.2% | buffer feasible  90.0% (policy-found   8.2%) | pairs  16384 | nll 0.411 | kl 0.000 |  741.9s
+             si@26 | success  21.3% | feasible  21.3% | fully_scheduled 100.0% | active_nodes  6.98 | density 0.892
+si  27 | best-of-64 feasible  54.6% | improved   8.1% | buffer feasible  90.0% (policy-found   8.1%) | pairs  16384 | nll 0.412 | kl 0.000 |  768.2s
+             si@27 | success  19.0% | feasible  19.0% | fully_scheduled 100.0% | active_nodes  7.05 | density 0.894
+si  28 | best-of-64 feasible  54.6% | improved   8.2% | buffer feasible  90.0% (policy-found   8.2%) | pairs  16384 | nll 0.404 | kl 0.000 |  794.0s
+             si@28 | success  21.0% | feasible  21.0% | fully_scheduled 100.0% | active_nodes  7.32 | density 0.889
+si  29 | best-of-64 feasible  56.0% | improved   7.4% | buffer feasible  90.0% (policy-found   7.4%) | pairs  16384 | nll 0.399 | kl 0.000 |  819.3s
+             si@29 | success  18.7% | feasible  18.7% | fully_scheduled 100.0% | active_nodes  7.12 | density 0.892
+-- value-head warm-up: 300 iterations (policy frozen) --
+value     0 | value_loss  509.437 |  827.8s
+value   250 | value_loss  136.495 |  829.6s
+value   299 | value_loss   72.413 |  830.0s
+-- PPO --
+iter    0 | reward  -22.325 | feasible 16.4% | active_nodes  7.79 | legal_pods 61.7% | loss   38.052 |  839.9s
+          policy@0 | success  17.7% | feasible  17.7% | fully_scheduled 100.0% | active_nodes  7.25 | density 0.897
+iter  250 | reward  -19.442 | feasible 22.7% | active_nodes  7.14 | legal_pods 63.2% | loss   22.844 |  858.0s
+        policy@250 | success  17.3% | feasible  17.3% | fully_scheduled 100.0% | active_nodes  7.15 | density 0.894
+iter  500 | reward  -21.908 | feasible 16.4% | active_nodes  7.34 | legal_pods 60.9% | loss   18.915 |  875.9s
+        policy@500 | success  19.0% | feasible  19.0% | fully_scheduled 100.0% | active_nodes  7.18 | density 0.888
+iter  750 | reward  -21.062 | feasible 20.3% | active_nodes  7.68 | legal_pods 62.2% | loss   18.230 |  893.8s
+        policy@750 | success  16.0% | feasible  16.0% | fully_scheduled 100.0% | active_nodes  7.06 | density 0.888
+iter 1000 | reward  -22.353 | feasible 16.4% | active_nodes  7.75 | legal_pods 63.2% | loss   16.650 |  911.7s
+       policy@1000 | success  17.0% | feasible  17.0% | fully_scheduled 100.0% | active_nodes  7.18 | density 0.885
+iter 1250 | reward  -22.107 | feasible 10.9% | active_nodes  7.52 | legal_pods 58.2% | loss   17.423 |  929.7s
+       policy@1250 | success  16.0% | feasible  16.0% | fully_scheduled 100.0% | active_nodes  6.71 | density 0.883
+iter 1500 | reward  -21.782 | feasible 16.4% | active_nodes  7.70 | legal_pods 61.7% | loss   17.973 |  947.7s
+       policy@1500 | success  15.0% | feasible  15.0% | fully_scheduled 100.0% | active_nodes  6.84 | density 0.884
+iter 1750 | reward  -22.001 | feasible 15.6% | active_nodes  7.66 | legal_pods 58.2% | loss   19.547 |  965.5s
+       policy@1750 | success  16.7% | feasible  16.7% | fully_scheduled 100.0% | active_nodes  7.40 | density 0.892
+iter 2000 | reward  -20.481 | feasible 15.6% | active_nodes  7.34 | legal_pods 61.6% | loss   21.483 |  983.5s
+       policy@2000 | success  16.3% | feasible  16.3% | fully_scheduled 100.0% | active_nodes  7.29 | density 0.894
+iter 2250 | reward  -21.590 | feasible 14.8% | active_nodes  7.69 | legal_pods 60.9% | loss   18.344 | 1001.5s
+       policy@2250 | success  16.7% | feasible  16.7% | fully_scheduled 100.0% | active_nodes  6.98 | density 0.892
+iter 2500 | reward  -22.064 | feasible 14.8% | active_nodes  7.43 | legal_pods 59.3% | loss   18.314 | 1019.2s
+       policy@2500 | success  14.3% | feasible  14.3% | fully_scheduled 100.0% | active_nodes  7.23 | density 0.890
+iter 2750 | reward  -22.305 | feasible 15.6% | active_nodes  7.76 | legal_pods 59.9% | loss   17.255 | 1036.9s
+       policy@2750 | success  15.7% | feasible  15.7% | fully_scheduled 100.0% | active_nodes  7.21 | density 0.891
+iter 2999 | reward  -20.923 | feasible 21.1% | active_nodes  7.55 | legal_pods 62.8% | loss   16.631 | 1053.4s
+       policy@2999 | success  15.0% | feasible  15.0% | fully_scheduled 100.0% | active_nodes  7.11 | density 0.896

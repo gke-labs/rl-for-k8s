@@ -1,0 +1,12 @@
+{
+  "iteration": 2600,
+  "eval": {
+    "name": "policy@2600",
+    "num_clusters": 100,
+    "fully_scheduled_rate": 1.0,
+    "feasible_rate": 0.07,
+    "success_rate": 0.07,
+    "mean_active_nodes": 6.857142857142857,
+    "mean_packing_density": 0.9178211188283907
+  }
+}

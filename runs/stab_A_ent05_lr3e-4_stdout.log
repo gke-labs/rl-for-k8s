@@ -1,0 +1,66 @@
+-- held-out baseline metrics (fixed, computed once) --
+best_fit_decreasing | success  25.0% | feasible 100.0% | fully_scheduled  25.0% | active_nodes  7.76 | density 0.896
+   random_feasible | success   0.0% | feasible 100.0% | fully_scheduled   0.0% | active_nodes   nan | density   nan
+-- training --
+iter    0 | reward  -30.314 | feasible  1.6% | active_nodes  6.34 | loss  352.388 |   41.0s
+          policy@0 | success   0.0% | feasible   0.0% | fully_scheduled 100.0% | active_nodes   nan | density   nan
+iter  100 | reward  -26.681 | feasible  3.1% | active_nodes  6.55 | loss   39.525 |   68.8s
+        policy@100 | success   1.0% | feasible   1.0% | fully_scheduled 100.0% | active_nodes  9.00 | density 0.861
+iter  200 | reward  -27.057 | feasible  0.8% | active_nodes  6.46 | loss   31.635 |   81.4s
+        policy@200 | success   1.0% | feasible   1.0% | fully_scheduled 100.0% | active_nodes  9.00 | density 0.861
+iter  300 | reward  -25.532 | feasible  2.3% | active_nodes  6.52 | loss   23.295 |   94.0s
+        policy@300 | success   0.0% | feasible   0.0% | fully_scheduled 100.0% | active_nodes   nan | density   nan
+iter  400 | reward  -28.779 | feasible  0.8% | active_nodes  6.46 | loss   26.194 |  106.5s
+        policy@400 | success   2.0% | feasible   2.0% | fully_scheduled 100.0% | active_nodes  7.00 | density 0.896
+iter  500 | reward  -28.275 | feasible  0.0% | active_nodes  6.64 | loss   29.447 |  119.0s
+        policy@500 | success   2.0% | feasible   2.0% | fully_scheduled 100.0% | active_nodes  6.00 | density 0.907
+iter  600 | reward  -27.481 | feasible  0.8% | active_nodes  6.45 | loss   27.135 |  131.5s
+        policy@600 | success   4.0% | feasible   4.0% | fully_scheduled 100.0% | active_nodes  7.00 | density 0.937
+iter  700 | reward  -29.271 | feasible  0.8% | active_nodes  6.75 | loss   32.368 |  144.0s
+        policy@700 | success   4.0% | feasible   4.0% | fully_scheduled 100.0% | active_nodes  7.00 | density 0.908
+iter  800 | reward  -26.336 | feasible  0.8% | active_nodes  6.38 | loss   23.632 |  156.5s
+        policy@800 | success   2.0% | feasible   2.0% | fully_scheduled 100.0% | active_nodes  8.00 | density 0.872
+iter  900 | reward  -27.387 | feasible  0.0% | active_nodes  6.72 | loss   24.263 |  169.0s
+        policy@900 | success   7.0% | feasible   7.0% | fully_scheduled 100.0% | active_nodes  6.29 | density 0.905
+iter 1000 | reward  -26.867 | feasible  1.6% | active_nodes  7.07 | loss   26.872 |  181.8s
+       policy@1000 | success   3.0% | feasible   3.0% | fully_scheduled 100.0% | active_nodes  5.33 | density 0.902
+iter 1100 | reward  -28.765 | feasible  1.6% | active_nodes  6.48 | loss   31.748 |  194.7s
+       policy@1100 | success   2.0% | feasible   2.0% | fully_scheduled 100.0% | active_nodes  4.50 | density 0.924
+iter 1200 | reward  -25.929 | feasible  1.6% | active_nodes  6.58 | loss   26.239 |  207.1s
+       policy@1200 | success   4.0% | feasible   4.0% | fully_scheduled 100.0% | active_nodes  5.00 | density 0.876
+iter 1300 | reward  -27.100 | feasible  0.8% | active_nodes  6.52 | loss   22.150 |  219.5s
+       policy@1300 | success   3.0% | feasible   3.0% | fully_scheduled 100.0% | active_nodes  6.33 | density 0.907
+iter 1400 | reward  -26.820 | feasible  1.6% | active_nodes  6.66 | loss   29.123 |  232.0s
+       policy@1400 | success   3.0% | feasible   3.0% | fully_scheduled 100.0% | active_nodes  6.33 | density 0.874
+iter 1500 | reward  -27.367 | feasible  0.8% | active_nodes  6.28 | loss   27.493 |  244.4s
+       policy@1500 | success   1.0% | feasible   1.0% | fully_scheduled 100.0% | active_nodes  5.00 | density 0.956
+iter 1600 | reward  -25.483 | feasible  0.8% | active_nodes  6.41 | loss   20.959 |  257.3s
+       policy@1600 | success   3.0% | feasible   3.0% | fully_scheduled 100.0% | active_nodes  7.00 | density 0.849
+iter 1700 | reward  -27.515 | feasible  0.8% | active_nodes  6.37 | loss   30.034 |  269.8s
+       policy@1700 | success   2.0% | feasible   2.0% | fully_scheduled 100.0% | active_nodes  7.00 | density 0.946
+iter 1800 | reward  -27.137 | feasible  0.8% | active_nodes  6.62 | loss   28.061 |  282.3s
+       policy@1800 | success   1.0% | feasible   1.0% | fully_scheduled 100.0% | active_nodes  5.00 | density 0.956
+iter 1900 | reward  -27.014 | feasible  2.3% | active_nodes  6.60 | loss   25.833 |  294.8s
+       policy@1900 | success   2.0% | feasible   2.0% | fully_scheduled 100.0% | active_nodes  5.00 | density 0.943
+iter 2000 | reward  -26.349 | feasible  2.3% | active_nodes  6.53 | loss   25.194 |  307.6s
+       policy@2000 | success   4.0% | feasible   4.0% | fully_scheduled 100.0% | active_nodes  7.00 | density 0.927
+iter 2100 | reward  -26.557 | feasible  1.6% | active_nodes  6.32 | loss   23.012 |  320.1s
+       policy@2100 | success   3.0% | feasible   3.0% | fully_scheduled 100.0% | active_nodes  6.33 | density 0.949
+iter 2200 | reward  -29.145 | feasible  2.3% | active_nodes  6.57 | loss   29.985 |  332.6s
+       policy@2200 | success   3.0% | feasible   3.0% | fully_scheduled 100.0% | active_nodes  5.67 | density 0.873
+iter 2300 | reward  -27.220 | feasible  0.0% | active_nodes  6.36 | loss   25.767 |  345.2s
+       policy@2300 | success   1.0% | feasible   1.0% | fully_scheduled 100.0% | active_nodes  5.00 | density 0.956
+iter 2400 | reward  -26.970 | feasible  0.8% | active_nodes  6.61 | loss   23.764 |  357.7s
+       policy@2400 | success   1.0% | feasible   1.0% | fully_scheduled 100.0% | active_nodes  5.00 | density 0.931
+iter 2500 | reward  -28.209 | feasible  0.0% | active_nodes  6.70 | loss   19.667 |  370.3s
+       policy@2500 | success   2.0% | feasible   2.0% | fully_scheduled 100.0% | active_nodes  7.00 | density 0.896
+iter 2600 | reward  -26.804 | feasible  2.3% | active_nodes  6.52 | loss   20.218 |  382.8s
+       policy@2600 | success   1.0% | feasible   1.0% | fully_scheduled 100.0% | active_nodes  8.00 | density 0.963
+iter 2700 | reward  -26.608 | feasible  2.3% | active_nodes  6.51 | loss   21.879 |  395.4s
+       policy@2700 | success   0.0% | feasible   0.0% | fully_scheduled 100.0% | active_nodes   nan | density   nan
+iter 2800 | reward  -26.052 | feasible  3.1% | active_nodes  6.27 | loss   23.746 |  407.9s
+       policy@2800 | success   3.0% | feasible   3.0% | fully_scheduled 100.0% | active_nodes  4.67 | density 0.926
+iter 2900 | reward  -28.349 | feasible  2.3% | active_nodes  6.81 | loss   26.287 |  420.4s
+       policy@2900 | success   3.0% | feasible   3.0% | fully_scheduled 100.0% | active_nodes  5.00 | density 0.897
+iter 2999 | reward  -28.812 | feasible  0.8% | active_nodes  6.79 | loss   24.184 |  432.3s
+       policy@2999 | success   2.0% | feasible   2.0% | fully_scheduled 100.0% | active_nodes  5.50 | density 0.969
